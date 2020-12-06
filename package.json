@@ -1,0 +1,17 @@
+{
+  "name": "advent_of_code_util",
+  "version": "0.1.0",
+  "description": "",
+  "main": "setup.js",
+  "scripts": {
+    "setup": "node setup.js",
+    "start": "node run.js"
+  },
+  "author": "Todd Risenmay",
+  "license": "ISC",
+  "dependencies": {
+    "date-fns": "^2.16.1",
+    "lodash": "^4.17.20",
+    "node-fetch": "^2.6.1"
+  }
+}
