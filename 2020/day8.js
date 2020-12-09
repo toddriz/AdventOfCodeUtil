@@ -83,6 +83,7 @@ module.exports.getSolutionForLevel2 = (inputFilePath) => {
     let accPreFlip;
     let flippedI;
     let flippedOp;
+    let flips = 0;
 
     const executedInstructions = [];
 
@@ -93,6 +94,7 @@ module.exports.getSolutionForLevel2 = (inputFilePath) => {
         let { op, arg } = instructions[i];
 
         if (!wasJustFlipped && _.isUndefined(flippedI) && _.includes(['jmp', 'nop'], op)) {
+            flips++;
             flippedI = i;
             flippedOp = op;
             accPreFlip = acc;
@@ -133,6 +135,7 @@ module.exports.getSolutionForLevel2 = (inputFilePath) => {
     }
 
     console.log('executions', executions);
+    console.log('flips', flips)
     console.log('flippedI', flippedI);
 
     console.log('i', i);
