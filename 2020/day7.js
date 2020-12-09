@@ -22,7 +22,7 @@ module.exports.getSolutionForLevel1 = (inputFilePath) => {
 
     const inputArray = utils.convertTextFileToArray(inputFilePath);
 
-    const bag = inputArray.reduce((mappedBags, line, index) => {
+    const bag = inputArray.reduce((mappedBags, line) => {
         if (line.length <= 10) {
             return mappedBags;
         }
@@ -51,10 +51,44 @@ module.exports.getSolutionForLevel1 = (inputFilePath) => {
     return answer;
 };
 
+const countBagsInside = (insideBags, bag) => {
+    const total = insideBags.reduce((bagCount, insideBag) => {
+        if (insideBag === 'noOther') {
+            return bagCount;
+        }
+        const count = _.toNumber(_.first(insideBag));
+
+        bagCount += count;
+        bagName = _.camelCase(_.replace(insideBag, /\d/, ''));
+
+        bagCount += count * countBagsInside(bag[bagName], bag);
+
+        return bagCount;
+    }, 0);
+
+    return total;
+};
+
 module.exports.getSolutionForLevel2 = (inputFilePath) => {
-    let answer;
+    let answer = 0;
 
     const inputArray = utils.convertTextFileToArray(inputFilePath);
+
+    const bag = inputArray.reduce((mappedBags, line) => {
+        if (line.length <= 10) {
+            return mappedBags;
+        }
+        const [bagName, innerBags] = line.replace(/\.|bags|bag/g, '').split('contain');
+
+        mappedBags[_.camelCase(bagName)] = innerBags.split(' , ').map(_.camelCase);
+
+        return mappedBags;
+    }, {});
+
+    const bagsInsideShinyGold = bag.shinyGold;
+
+    console.log('bagsInsideShinyGold', bagsInsideShinyGold);
+    answer = countBagsInside(bagsInsideShinyGold, bag, 0);
 
     return answer;
 };
