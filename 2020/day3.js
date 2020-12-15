@@ -1,12 +1,12 @@
-const fs = require('fs');
+const utils = require('../utils');
 const _ = require('lodash');
 
-const utils = require('../utils');
+// SOMETHING IS BUSTED SINCE THE REFACTOR FOR EXAMPLE INPUTS
 
-module.exports.getSolutionForLevel1 = (inputFilePath) => {
+module.exports.getSolutionForLevel1 = ({ inputArray }) => {
     let answer = 0;
 
-    const twoDArray = utils.convertTextFileTo2dArray(inputFilePath);
+    const twoDArray = utils.convertArrayTo2dArray(inputArray);
 
     answer = checkSlope(twoDArray, 3, 1);
     return answer;
@@ -35,10 +35,10 @@ const checkSlope = (twoDArray, dx, dy) => {
     return trees;
 };
 
-module.exports.getSolutionForLevel2 = (inputFilePath) => {
+module.exports.getSolutionForLevel2 = ({ inputArray }) => {
     let answer;
 
-    const twoDArray = utils.convertTextFileTo2dArray(inputFilePath);
+    const twoDArray = utils.convertArrayTo2dArray(inputArray);
 
     const slopes = [
         { x: 1, y: 1 },

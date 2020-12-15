@@ -2,10 +2,8 @@ const _ = require('lodash');
 
 const utils = require('../utils');
 
-module.exports.getSolutionForLevel1 = (inputFilePath) => {
+module.exports.getSolutionForLevel1 = ({ inputArray }) => {
     let answer;
-
-    const inputArray = utils.convertTextFileToArray(inputFilePath);
 
     const instructions = inputArray.map((line) => {
         const [op, arg] = line.split(' ');
@@ -29,8 +27,6 @@ module.exports.getSolutionForLevel1 = (inputFilePath) => {
         console.log('i', i);
 
         const { op, arg } = instructions[i];
-        console.log('op', op);
-        console.log('arg', arg);
         if (executedInstructions.includes(i)) {
             console.log('repeat i', i);
             break;
@@ -58,10 +54,8 @@ module.exports.getSolutionForLevel1 = (inputFilePath) => {
     return answer;
 };
 
-module.exports.getSolutionForLevel2 = (inputFilePath) => {
+module.exports.getSolutionForLevel2 = ({ inputArray }) => {
     let answer;
-
-    const inputArray = utils.convertTextFileToArray(inputFilePath);
 
     const instructions = inputArray.map((line) => {
         const [op, arg] = line.split(' ');
@@ -135,7 +129,7 @@ module.exports.getSolutionForLevel2 = (inputFilePath) => {
     }
 
     console.log('executions', executions);
-    console.log('flips', flips)
+    console.log('flips', flips);
     console.log('flippedI', flippedI);
 
     console.log('i', i);

@@ -16,6 +16,10 @@ module.exports.convertTextFileTo2dArray = (filePath) => {
     return fileArray.map((line) => line.split(''));
 };
 
+module.exports.convertArrayTo2dArray = (fileArray) => {
+    return fileArray.map((line) => line.split(''));
+};
+
 module.exports.fetchInputForDay = async (year, day) => {
     const response = await fetch(`https://adventofcode.com/${year}/day/${day}/input`, {
         headers: { cookie: adventCookie },

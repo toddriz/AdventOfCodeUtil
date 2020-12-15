@@ -2,13 +2,10 @@ const _ = require('lodash');
 
 const utils = require('../utils');
 
-module.exports.getSolutionForLevel1 = (inputFilePath) => {
+module.exports.getSolutionForLevel1 = ({ inputArray }) => {
     let answer;
 
-    const inputArray = utils.convertTextFileToArray(inputFilePath);
-
     const numbers = inputArray.map(_.toNumber);
-
 
     for (let i = 25; i < numbers.length; i++) {
         if (answer) {
@@ -19,17 +16,19 @@ module.exports.getSolutionForLevel1 = (inputFilePath) => {
         const prev25 = numbers.slice(i - 25, i).filter((num) => num < number);
         // console.log('prev 25', prev25);
 
+        const possibleSums = prev25
+            .reduce((sums, num) => {
+                sums.push(
+                    ...prev25.map((num2) => {
+                        if (num !== num2) {
+                            return num + num2;
+                        }
+                    })
+                );
 
-        const possibleSums = prev25.reduce((sums, num) => {
-            sums.push(...prev25.map((num2) => {
-                if (num !== num2) {
-                    return num + num2;
-                }
-            }));
-
-
-            return sums;
-        }, []).filter(Boolean);
+                return sums;
+            }, [])
+            .filter(Boolean);
 
         // console.log('possibleSums', possibleSums);
 
@@ -38,14 +37,11 @@ module.exports.getSolutionForLevel1 = (inputFilePath) => {
         }
     }
 
-
     return answer;
 };
 
-module.exports.getSolutionForLevel2 = (inputFilePath) => {
+module.exports.getSolutionForLevel2 = ({ inputArray }) => {
     let answer;
-
-    const inputArray = utils.convertTextFileToArray(inputFilePath);
 
     const numbers = inputArray.map(_.toNumber);
 
@@ -58,16 +54,19 @@ module.exports.getSolutionForLevel2 = (inputFilePath) => {
         number = numbers[i];
         const prev25 = numbers.slice(i - 25, i).filter((num) => num < number);
 
-        const possibleSums = prev25.reduce((sums, num) => {
-            sums.push(...prev25.map((num2) => {
-                if (num !== num2) {
-                    return num + num2;
-                }
-            }));
+        const possibleSums = prev25
+            .reduce((sums, num) => {
+                sums.push(
+                    ...prev25.map((num2) => {
+                        if (num !== num2) {
+                            return num + num2;
+                        }
+                    })
+                );
 
-
-            return sums;
-        }, []).filter(Boolean);
+                return sums;
+            }, [])
+            .filter(Boolean);
 
         if (!_.includes(possibleSums, number)) {
             badNum = number;
@@ -95,7 +94,6 @@ module.exports.getSolutionForLevel2 = (inputFilePath) => {
             break;
         }
     }
-
 
     return answer;
 };

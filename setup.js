@@ -47,8 +47,6 @@ const getInputForYear = async (year) => {
 const createCodeFileForDay = (codePath) => {
     const template = `const _ = require('lodash');
 
-const utils = require('../utils');
-
 module.exports.examples = [
     \`
 ----PASTE EXAMPLES HERE

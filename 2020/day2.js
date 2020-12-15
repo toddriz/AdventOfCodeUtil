@@ -1,12 +1,8 @@
 const fs = require('fs');
 const _ = require('lodash');
 
-const utils = require('../utils');
-
-module.exports.getSolutionForLevel1 = (inputFilePath) => {
+module.exports.getSolutionForLevel1 = ({ inputArray }) => {
     let answer;
-
-    const inputArray = utils.convertTextFileToArray(inputFilePath);
 
     answer = inputArray.reduce((acc, input) => {
         const [range, letter, password] = input.split(' ');
@@ -26,12 +22,10 @@ module.exports.getSolutionForLevel1 = (inputFilePath) => {
     return answer;
 };
 
-module.exports.getSolutionForLevel2 = (inputFilePath) => {
+module.exports.getSolutionForLevel2 = ({ inputArray }) => {
     let answer;
 
-    const inputArray = utils.convertTextFileToArray(inputFilePath);
-
-    answer = inputArray.reduce((acc, input, index) => {
+    answer = inputArray.reduce((acc, input) => {
         const [positions, letter, password] = input.split(' ');
 
         const [pos1, pos2] = positions.split('-');

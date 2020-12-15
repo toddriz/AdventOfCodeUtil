@@ -3,10 +3,8 @@ const _ = require('lodash');
 
 const utils = require('../utils');
 
-module.exports.getSolutionForLevel1 = (inputFilePath) => {
+module.exports.getSolutionForLevel1 = ({ inputArray }) => {
     let answer = 0;
-
-    const inputArray = utils.convertTextFileToArray(inputFilePath);
 
     inputArray.forEach((bsp) => {
         const rowBsp = bsp.slice(0, 7).split('');
@@ -50,12 +48,10 @@ module.exports.getSolutionForLevel1 = (inputFilePath) => {
     return answer;
 };
 
-module.exports.getSolutionForLevel2 = (inputFilePath) => {
+module.exports.getSolutionForLevel2 = ({ inputArray }) => {
     let answer;
 
     let seats = [];
-
-    const inputArray = utils.convertTextFileToArray(inputFilePath);
 
     inputArray.forEach((bsp) => {
         const rowBsp = bsp.slice(0, 7).split('');

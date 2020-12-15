@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 const utils = require('./utils');
 
 const { performance, PerformanceObserver } = require('perf_hooks');
@@ -46,9 +48,6 @@ const checkExamples = ({ solver, examples, answers }) => {
 const main = async () => {
     performance.mark('start');
 
-    const codePath = `./${year}/day${day}.js`;
-    const codeForDay = require(codePath);
-
     console.log('year', year);
     console.log('day', day);
     console.log('level', level);
@@ -60,6 +59,8 @@ const main = async () => {
     const inputFilePath = `./${year}/day${day}.txt`;
     const inputArray = utils.convertTextFileToArray(inputFilePath);
 
+    const codePath = `./${year}/day${day}.js`;
+    const codeForDay = require(codePath);
     const {
         examples,
         part1ExampleAnswers,
@@ -80,7 +81,7 @@ const main = async () => {
             return;
         }
 
-        answer = codeForDay.getSolutionForLevel1({ inputArray, inputFilePath });
+        answer = getSolutionForLevel1({ inputArray });
     } else {
         const doExamplesWork = checkExamples({
             solver: getSolutionForLevel2,
@@ -92,7 +93,7 @@ const main = async () => {
             return;
         }
 
-        answer = codeForDay.getSolutionForLevel2({ inputArray, inputFilePath });
+        answer = getSolutionForLevel2({ inputArray });
     }
 
     if (['', undefined, null].includes(answer)) {

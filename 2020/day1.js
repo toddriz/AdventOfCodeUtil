@@ -1,13 +1,7 @@
 const _ = require('lodash');
 
-const utils = require('../utils');
-
-module.exports.getSolutionForLevel1 = (inputFilePath) => {
+module.exports.getSolutionForLevel1 = ({ inputArray }) => {
     let answer;
-
-    console.log('filePath', inputFilePath);
-
-    const inputArray = utils.convertTextFileToArray(inputFilePath);
 
     const numbers = inputArray.map(_.toNumber);
 
@@ -30,10 +24,8 @@ module.exports.getSolutionForLevel1 = (inputFilePath) => {
     return answer;
 };
 
-module.exports.getSolutionForLevel2 = (inputFilePath) => {
+module.exports.getSolutionForLevel2 = ({ inputArray }) => {
     let answer;
-
-    const inputArray = utils.convertTextFileToArray(inputFilePath);
 
     const numbers = inputArray.map(_.toNumber);
 

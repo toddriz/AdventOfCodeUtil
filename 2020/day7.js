@@ -17,10 +17,8 @@ const doesBagContainShinyGold = (innerBags, bag) => {
     }
 };
 
-module.exports.getSolutionForLevel1 = (inputFilePath) => {
+module.exports.getSolutionForLevel1 = ({ inputArray }) => {
     let answer;
-
-    const inputArray = utils.convertTextFileToArray(inputFilePath);
 
     const bag = inputArray.reduce((mappedBags, line) => {
         if (line.length <= 10) {
@@ -39,7 +37,7 @@ module.exports.getSolutionForLevel1 = (inputFilePath) => {
 
     try {
         answer = _.map(bag, (innerBags) => {
-            console.log('innerBags', innerBags);
+            // console.log('innerBags', innerBags);
             return doesBagContainShinyGold(innerBags, bag);
         }).filter(Boolean).length;
     } catch (error) {
@@ -69,10 +67,8 @@ const countBagsInside = (insideBags, bag) => {
     return total;
 };
 
-module.exports.getSolutionForLevel2 = (inputFilePath) => {
+module.exports.getSolutionForLevel2 = ({ inputArray }) => {
     let answer = 0;
-
-    const inputArray = utils.convertTextFileToArray(inputFilePath);
 
     const bag = inputArray.reduce((mappedBags, line) => {
         if (line.length <= 10) {
