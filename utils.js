@@ -54,28 +54,3 @@ module.exports.submitAnswer = async (answer, year, day, level) => {
         console.log('********************Some Unknown Response**********************');
     }
 };
-
-module.exports.createCodeFileForDay = (year, day, codePath) => {
-    const template = `const _ = require('lodash');
-
-const utils = require('../utils');
-
-module.exports.getSolutionForLevel1 = (inputFilePath) => {
-    let answer;
-
-    const inputArray = utils.convertTextFileToArray(inputFilePath);
-
-    return answer;
-};
-
-module.exports.getSolutionForLevel2 = (inputFilePath) => {
-    let answer;
-
-    const inputArray = utils.convertTextFileToArray(inputFilePath);
-
-    return answer;
-};
-`;
-
-    fs.writeFileSync(codePath, template);
-};
