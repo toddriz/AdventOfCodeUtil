@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 const utils = require('./utils');
 
 const { performance, PerformanceObserver } = require('perf_hooks');
@@ -18,11 +20,6 @@ const checkExamples = ({ solver, examples, answers }) => {
     if (_.isEmpty(examples)) {
         console.log('No examples provided');
         return true;
-    }
-
-    if (examples.length !== answers.length) {
-        console.log('Number of examples does not equal number of example answers.');
-        return false;
     }
 
     return examples.every((example, index) => {
@@ -46,9 +43,6 @@ const checkExamples = ({ solver, examples, answers }) => {
 const main = async () => {
     performance.mark('start');
 
-    const codePath = `./${year}/day${day}.js`;
-    const codeForDay = require(codePath);
-
     console.log('year', year);
     console.log('day', day);
     console.log('level', level);
@@ -60,9 +54,12 @@ const main = async () => {
     const inputFilePath = `./${year}/day${day}.txt`;
     const inputArray = utils.convertTextFileToArray(inputFilePath);
 
+    const codePath = `./${year}/day${day}.js`;
+    const codeForDay = require(codePath);
     const {
-        examples,
+        part1Examples,
         part1ExampleAnswers,
+        part2Examples,
         part2ExampleAnswers,
         getSolutionForLevel1,
         getSolutionForLevel2
@@ -72,7 +69,7 @@ const main = async () => {
     if (level === '1') {
         const doExamplesWork = checkExamples({
             solver: getSolutionForLevel1,
-            examples,
+            examples: part1Examples,
             answers: part1ExampleAnswers
         });
 
@@ -80,11 +77,11 @@ const main = async () => {
             return;
         }
 
-        answer = codeForDay.getSolutionForLevel1({ inputArray, inputFilePath });
+        answer = getSolutionForLevel1({ inputArray });
     } else {
         const doExamplesWork = checkExamples({
             solver: getSolutionForLevel2,
-            examples,
+            examples: part2Examples,
             answers: part2ExampleAnswers
         });
 
@@ -92,7 +89,7 @@ const main = async () => {
             return;
         }
 
-        answer = codeForDay.getSolutionForLevel2({ inputArray, inputFilePath });
+        answer = getSolutionForLevel2({ inputArray });
     }
 
     if (['', undefined, null].includes(answer)) {
