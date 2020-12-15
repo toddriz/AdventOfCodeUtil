@@ -47,8 +47,6 @@ const getInputForYear = async (year) => {
 const createCodeFileForDay = (codePath) => {
     const template = `const _ = require('lodash');
 
-const utils = require('../utils');
-
 module.exports.part1Examples = [
 \`
 ----PASTE EXAMPLES HERE
@@ -56,7 +54,7 @@ module.exports.part1Examples = [
 ];
 
 module.exports.part1ExampleAnswers = [
-    ----PASTE EXAMPLE ANSWERS HERE
+----PASTE EXAMPLE ANSWERS HERE
 ];
 
 module.exports.part2Examples = [
@@ -66,7 +64,7 @@ module.exports.part2Examples = [
 ];
 
 module.exports.part2ExampleAnswers = [
-    ----PASTE EXAMPLE ANSWERS HERE
+----PASTE EXAMPLE ANSWERS HERE
 ];
 
 module.exports.getSolutionForLevel1 = ({ inputArray }) => {
