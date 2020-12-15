@@ -38,10 +38,49 @@ const getInputForYear = async (year) => {
         }
 
         if (!fs.existsSync(codePath)) {
-            utils.createCodeFileForDay(year, day, codePath);
+            createCodeFileForDay(codePath);
             console.log(`***** Wrote code file for Year: ${year} - Day ${day} *****`);
         }
     }
+};
+
+const createCodeFileForDay = (codePath) => {
+    const template = `const _ = require('lodash');
+
+const utils = require('../utils');
+
+module.exports.examples = [
+    \`
+----PASTE EXAMPLES HERE
+    \`
+];
+
+module.exports.part1ExampleAnswers = [
+    ----PASTE EXAMPLE ANSWERS HERE
+];
+
+module.exports.part2ExampleAnswers = [
+    ----PASTE EXAMPLE ANSWERS HERE
+];
+
+module.exports.getSolutionForLevel1 = ({ inputArray, inputFilePath }) =>
+    let answer;
+
+    const input = inputArray;
+
+    return answer;
+};
+
+module.exports.getSolutionForLevel2 = ({ inputArray, inputFilePath }) =>
+    let answer;
+
+    const input = inputArray;
+
+    return answer;
+};
+`;
+
+    fs.writeFileSync(codePath, template);
 };
 
 const main = async () => {

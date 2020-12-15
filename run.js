@@ -14,6 +14,35 @@ const args = process.argv.slice(2);
 
 const [year, day, level, shouldSubmitAnswerString] = args;
 
+const checkExamples = ({ solver, examples, answers }) => {
+    if (_.isEmpty(examples)) {
+        console.log('No examples provided');
+        return true;
+    }
+
+    if (examples.length !== answers.length) {
+        console.log('Number of examples does not equal number of example answers.');
+        return false;
+    }
+
+    return examples.every((example, index) => {
+        const correctAnswer = answers[index];
+        const inputArray = example.split('\n');
+        console.log('example:', inputArray);
+
+        const actualAnswer = solver({ inputArray });
+
+        if (actualAnswer === correctAnswer) {
+            return true;
+        } else {
+            console.log(
+                `Example answer: ${actualAnswer} does not equal correct answer: ${correctAnswer}`
+            );
+            return false;
+        }
+    });
+};
+
 const main = async () => {
     performance.mark('start');
 
@@ -29,16 +58,45 @@ const main = async () => {
     }
 
     const inputFilePath = `./${year}/day${day}.txt`;
+    const inputArray = utils.convertTextFileToArray(inputFilePath);
+
+    const {
+        examples,
+        part1ExampleAnswers,
+        part2ExampleAnswers,
+        getSolutionForLevel1,
+        getSolutionForLevel2
+    } = codeForDay;
 
     let answer;
     if (level === '1') {
-        answer = codeForDay.getSolutionForLevel1(inputFilePath);
+        const doExamplesWork = checkExamples({
+            solver: getSolutionForLevel1,
+            examples,
+            answers: part1ExampleAnswers
+        });
+
+        if (!doExamplesWork) {
+            return;
+        }
+
+        answer = codeForDay.getSolutionForLevel1({ inputArray, inputFilePath });
     } else {
-        answer = codeForDay.getSolutionForLevel2(inputFilePath);
+        const doExamplesWork = checkExamples({
+            solver: getSolutionForLevel2,
+            examples,
+            answers: part2ExampleAnswers
+        });
+
+        if (!doExamplesWork) {
+            return;
+        }
+
+        answer = codeForDay.getSolutionForLevel2({ inputArray, inputFilePath });
     }
 
     if (['', undefined, null].includes(answer)) {
-        return `This is not the answer: ${answer}`;
+        return 'Answer is undefined';
     }
 
     console.log('answer', answer);
