@@ -22,11 +22,6 @@ const checkExamples = ({ solver, examples, answers }) => {
         return true;
     }
 
-    if (examples.length !== answers.length) {
-        console.log('Number of examples does not equal number of example answers.');
-        return false;
-    }
-
     return examples.every((example, index) => {
         const correctAnswer = answers[index];
         const inputArray = example.split('\n');
@@ -62,8 +57,9 @@ const main = async () => {
     const codePath = `./${year}/day${day}.js`;
     const codeForDay = require(codePath);
     const {
-        examples,
+        part1Examples,
         part1ExampleAnswers,
+        part2Examples,
         part2ExampleAnswers,
         getSolutionForLevel1,
         getSolutionForLevel2
@@ -73,7 +69,7 @@ const main = async () => {
     if (level === '1') {
         const doExamplesWork = checkExamples({
             solver: getSolutionForLevel1,
-            examples,
+            examples: part1Examples,
             answers: part1ExampleAnswers
         });
 
@@ -85,7 +81,7 @@ const main = async () => {
     } else {
         const doExamplesWork = checkExamples({
             solver: getSolutionForLevel2,
-            examples,
+            examples: part2Examples,
             answers: part2ExampleAnswers
         });
 
