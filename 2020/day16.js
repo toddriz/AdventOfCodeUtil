@@ -1,4 +1,3 @@
-const { isValid } = require('date-fns');
 const _ = require('lodash');
 
 module.exports.part1Examples = [
@@ -16,13 +15,11 @@ nearby tickets:
 38,6,12`
 ];
 
-module.exports.part1ExampleAnswers = [
-    71
-];
+module.exports.part1ExampleAnswers = [71];
 
 module.exports.part2Examples = [
-    `class: 0-1 or 4-19
-row: 0-5 or 8-19
+    `departure class: 0-1 or 4-19
+departure row: 0-5 or 8-19
 seat: 0-13 or 16-19
 
 your ticket:
@@ -34,21 +31,10 @@ nearby tickets:
 5,14,9`
 ];
 
-module.exports.part2ExampleAnswers = [
-    { class: 12, row: 11, seat: 13 }
-];
+module.exports.part2ExampleAnswers = [132];
 
 const isValidNumber = (rules, num) => {
-    return rules.some(([lower, upper]) => {
-        // console.log('lower', lower);
-        // console.log('upper', upper);
-
-        const isInRange = num <= upper && num >= lower;
-
-        // console.log(`${num} is ${isInRange ? '' : 'not'} in range`);
-
-        return isInRange;
-    });
+    return rules.some(([lower, upper]) => num <= upper && num >= lower);
 };
 
 module.exports.getSolutionForLevel1 = ({ inputArray }) => {
@@ -57,10 +43,6 @@ module.exports.getSolutionForLevel1 = ({ inputArray }) => {
     let rules = [];
     let myTicket = [];
     let nearbyTickets = [];
-
-    let areRulesParse = false;
-    let isMyTicketParsed = false;
-    let areNearbyTicketsParsed = false;
 
     let currentSection = rules;
 
@@ -78,27 +60,35 @@ module.exports.getSolutionForLevel1 = ({ inputArray }) => {
                     break;
             }
         } else {
-            // console.log('currentSection', currentSection)
             currentSection.push(line);
         }
     });
 
     const rulesRegex = /[a-z]+: ([\d]+)-([\d]+) or ([\d]+)-([\d]+)/;
-    rules = rules.map((ruleString) => {
-        const match = ruleString.match(rulesRegex);
+    rules = rules
+        .map((ruleString) => {
+            const match = ruleString.match(rulesRegex);
 
-        return [[match[1], match[2]], [match[3], match[4]]];
-    }).flat().map((arr) => arr.map(Number));
+            return [
+                [match[1], match[2]],
+                [match[3], match[4]]
+            ];
+        })
+        .flat()
+        .map((arr) => arr.map(Number));
 
     myTicket = myTicket[1].split(',').map(Number);
-    nearbyTickets = nearbyTickets.slice(1).map((ticketString) => ticketString.split(',')).map((arr) => arr.map(Number));
+    nearbyTickets = nearbyTickets
+        .slice(1)
+        .map((ticketString) => ticketString.split(','))
+        .map((arr) => arr.map(Number));
 
-
-    answer = nearbyTickets.flat().filter((num) => !isValidNumber(rules, num))
+    answer = nearbyTickets
+        .flat()
+        .filter((num) => !isValidNumber(rules, num))
         .reduce((errorRate, invalidTicketValue) => {
             return errorRate + invalidTicketValue;
         }, 0);
-
 
     return answer;
 };
@@ -110,19 +100,14 @@ module.exports.getSolutionForLevel2 = ({ inputArray }) => {
     let myTicket = [];
     let nearbyTickets = [];
 
-    let areRulesParse = false;
-    let isMyTicketParsed = false;
-    let areNearbyTicketsParsed = false;
-
     let currentSection = rules;
 
     inputArray.forEach((line) => {
-        if (line.length === 0) {
+        if (line === '\r' || line.length === 0) {
             switch (currentSection) {
                 case rules:
                     currentSection = myTicket;
                     break;
-
                 case myTicket:
                     currentSection = nearbyTickets;
                     break;
@@ -134,55 +119,120 @@ module.exports.getSolutionForLevel2 = ({ inputArray }) => {
         }
     });
 
-    const rulesRegex = /([a-z])+: ([\d]+)-([\d]+) or ([\d]+)-([\d]+)/;
+    const rulesRegex = /([a-z | \S]+): ([\d]+)-([\d]+) or ([\d]+)-([\d]+)/;
+
+    console.log('rules', rules);
     rules = rules.map((ruleString) => {
         const match = ruleString.match(rulesRegex);
 
-        return { field: match[1], bounds: [[Number(match[2]), Number(match[3])], [Number(match[4]), Number(match[5])]] };
+        if (match === null) {
+            console.log('ruleString', ruleString);
+        }
+
+        return {
+            field: match[1],
+            bounds: [
+                [Number(match[2]), Number(match[3])],
+                [Number(match[4]), Number(match[5])]
+            ]
+        };
     });
-
-    // console.log('rules', rules);
-
-    // console.log('rules[0].bounds.flat()', rules[0].bounds.flat());
 
     myTicket = myTicket[1].split(',').map(Number);
-    nearbyTickets = nearbyTickets.slice(1).map((ticketString) => ticketString.split(',')).map((arr) => arr.map(Number));
 
-
-    // console.log('nearbyTickets.length', nearbyTickets.length);
-
-    // console.log('myTicket.every((num) => isValidNumber(rules.map(({bounds}) => bounds.flat()), num));', myTicket.every((num) => isValidNumber(rules.map(({ bounds }) => bounds.flat()), num)));
+    console.log('myTicket', myTicket);
+    nearbyTickets = nearbyTickets
+        .slice(1)
+        .map((ticketString) => ticketString.split(','))
+        .map((arr) => arr.map(Number));
 
     validTickets = [myTicket, ...nearbyTickets].filter((ticket) => {
-        return ticket.every((num) => isValidNumber(rules.map(({ bounds }) => bounds.flat()), num));
+        return ticket.every((num) => {
+            return isValidNumber(rules.map(({ bounds }) => bounds).flat(), num);
+        });
     });
 
+    let validValuesByField = [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+    ];
 
-
-    console.log('validTickets.length', validTickets.length);
-
-    const validValuesByField = validTickets.slice(0, 2).reduce((validValues, ticket) => {
-        // console.log('validValues', validValues)
-        // console.log('ticket', ticket)
-        // console.log('ticket.length', ticket.length)
+    validTickets.forEach((ticket) => {
         ticket.forEach((num, i) => {
-            console.log('i', i);
-            console.log('num', num);
-            console.log('validValues[i]', validValues[i]);
-            validValues[i].push(num);
+            validValuesByField[i].push(num);
+        });
+    });
+
+    let possiblePositions = validValuesByField
+        .filter((f) => !_.isEmpty(f))
+        .map((fieldValues, i) => {
+            const possibleFields = rules
+                .filter(({ bounds }) => {
+                    return fieldValues.every((num) => {
+                        return isValidNumber(bounds, num);
+                    });
+                })
+                .map(({ field }) => field);
+
+            return { i, possibleFields };
         });
 
-        return validValues;
+    const positions = [];
+    const singled = [];
+    while (possiblePositions.some(({ possibleFields }) => possibleFields.length > 1)) {
+        const { i, possibleFields } =
+            possiblePositions.find(({ possibleFields }) => {
+                // console.log('possibleFields', possibleFields);
+                const isOne = possibleFields.length === 1;
+                const single = _.first(possibleFields);
 
-    }, new Array(20).fill([]));
+                const wasAlreadySingled = _.includes(singled, single);
 
-    console.log('validValuesByField', validValuesByField);
+                return isOne && !wasAlreadySingled;
+            }) || {};
 
-    const translatedTicket = {
+        const nextSingled = possibleFields[0];
 
-    };
+        _.set(positions, i, nextSingled);
 
-    answer = translatedTicket;
+        singled.push(nextSingled);
+        possiblePositions = possiblePositions.map(({ i, possibleFields }) => {
+            return {
+                i,
+                possibleFields: _.isEqual(singled, possibleFields)
+                    ? possibleFields
+                    : _.difference(possibleFields, singled)
+            };
+        });
+    }
+
+    answer = positions.reduce((mult, pos, i) => {
+        if (pos.includes('departure')) {
+            const val = myTicket[i];
+
+            return (mult *= myTicket[i]);
+        }
+
+        return mult;
+    }, 1);
 
     return answer;
 };

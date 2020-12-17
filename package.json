@@ -5,7 +5,7 @@
   "main": "setup.js",
   "scripts": {
     "setup": "node setup.js",
-    "start": "node run.js"
+    "start": "node run.js 2020 16 2"
   },
   "author": "Todd Risenmay",
   "license": "ISC",

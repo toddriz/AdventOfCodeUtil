@@ -79,15 +79,15 @@ const main = async () => {
 
         answer = getSolutionForLevel1({ inputArray });
     } else {
-        // const doExamplesWork = checkExamples({
-        //     solver: getSolutionForLevel2,
-        //     examples: part2Examples,
-        //     answers: part2ExampleAnswers
-        // });
+        const doExamplesWork = checkExamples({
+            solver: getSolutionForLevel2,
+            examples: part2Examples,
+            answers: part2ExampleAnswers
+        });
 
-        // if (!doExamplesWork) {
-        //     return;
-        // }
+        if (!doExamplesWork) {
+            return;
+        }
 
         answer = getSolutionForLevel2({ inputArray });
     }
