@@ -1,7 +1,9 @@
 const fs = require('fs');
 const fetch = require('node-fetch');
 
-const adventCookie = 'PASTE YOURS HERE';
+
+const adventCookie =
+    'session=53616c7465645f5ff8a4e29c5fd73f7adfd9d116fbcf2c4bc7b5a06af5026ca8060916e8068767d0618a51bb2aeca84f';
 
 module.exports.convertTextFileToArray = (filePath) => {
     const fileBuffer = fs.readFileSync(filePath);
