@@ -54,6 +54,14 @@ const main = async () => {
     const inputFilePath = `./${year}/day${day}.txt`;
     const inputArray = utils.convertTextFileToArray(inputFilePath);
 
+    if (_.first(inputArray) === '') {
+        inputArray.unshift();
+    }
+
+    if (_.last(inputArray) === '') {
+        inputArray.pop();
+    }
+
     const codePath = `./${year}/day${day}.js`;
     const codeForDay = require(codePath);
     const {
