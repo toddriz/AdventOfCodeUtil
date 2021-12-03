@@ -47,12 +47,18 @@ module.exports.submitAnswer = async (answer, year, day, level) => {
     const htmlResponse = await response.text();
 
     if (htmlResponse.includes("That's not the right answer")) {
+        console.log('htmlResponse', htmlResponse);
         console.log('********************Incorrect Answer**********************');
 
         // TODO write wrong answer to file
     } else if (htmlResponse.includes("That's the right answer")) {
         console.log('********************Right Answer**********************');
+    } else if (htmlResponse.includes("You gave an answer too recently")) {
+        console.log('htmlResponse', htmlResponse);
+        console.log('********************Wait a bit**********************');
     } else {
+        console.log('htmlResponse', htmlResponse);
+
         console.log('********************Some Unknown Response**********************');
     }
 };
