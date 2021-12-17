@@ -59,12 +59,12 @@ module.exports.part1ExampleAnswers = [
 
 module.exports.part2Examples = [
 \`
-----PASTE EXAMPLES HERE
+    ----PASTE EXAMPLES HERE
 \`
 ];
 
 module.exports.part2ExampleAnswers = [
-----PASTE EXAMPLE ANSWERS HERE
+//  ----PASTE EXAMPLE ANSWERS HERE
 ];
 
 module.exports.getSolutionForLevel1 = ({ inputArray }) => {
