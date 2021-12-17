@@ -34,10 +34,11 @@ const findBestPath = (xy, map, { bestPath, pathRisk }) => {
         return map.get(sidePoint).risk;
     });
 
-    console.log('sidesRisk', sidesRisk)
+    console.log('sidesRisk', sidesRisk);
 
     return bestPath;
 };
+
 
 module.exports.getSolutionForLevel1 = ({ inputArray }) => {
     let answer;

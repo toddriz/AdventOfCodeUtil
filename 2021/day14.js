@@ -1,6 +1,7 @@
 const _ = require('lodash');
 
 module.exports.part1Examples = [
+<<<<<<< Updated upstream
     `NNCB
 
 CH -> B
@@ -48,11 +49,31 @@ CN -> C`
 
 module.exports.part2ExampleAnswers = [
     2188189693529
+=======
+`
+----PASTE EXAMPLES HERE
+`
+];
+
+module.exports.part1ExampleAnswers = [
+----PASTE EXAMPLE ANSWERS HERE
+];
+
+module.exports.part2Examples = [
+`
+----PASTE EXAMPLES HERE
+`
+];
+
+module.exports.part2ExampleAnswers = [
+----PASTE EXAMPLE ANSWERS HERE
+>>>>>>> Stashed changes
 ];
 
 module.exports.getSolutionForLevel1 = ({ inputArray }) => {
     let answer;
 
+<<<<<<< Updated upstream
     const { polymerTemplate, insertionRules } = inputArray.reduce((acc, line, index) => {
         if (index === 0) {
             acc.polymerTemplate = line;
@@ -171,11 +192,17 @@ module.exports.getSolutionForLevel1 = ({ inputArray }) => {
 
 
     return mostCommonElementCount - leastCommonElementCount;
+=======
+    const input = inputArray;
+
+    return answer;
+>>>>>>> Stashed changes
 };
 
 module.exports.getSolutionForLevel2 = ({ inputArray }) => {
     let answer;
 
+<<<<<<< Updated upstream
     const { polymerTemplate, insertionRules } = inputArray.reduce((acc, line, index) => {
         if (index === 0) {
             acc.polymerTemplate = line;
@@ -304,4 +331,9 @@ module.exports.getSolutionForLevel2 = ({ inputArray }) => {
 
 
     return  ((mostCommonElementCount / 2)  - (leastCommonElementCount / 2));
+=======
+    const input = inputArray;
+
+    return answer;
+>>>>>>> Stashed changes
 };
