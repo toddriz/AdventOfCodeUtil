@@ -1,7 +1,7 @@
 const fs = require('fs');
-const fetch = require('node-fetch');
 
-const adventCookie = 'PASTE YOURS HERE';
+const adventCookie =
+    'session=53616c7465645f5f37fa0f9ed803158615a850fd9dcd9c177d27c5afe4d25dbe9927253b5ecf1eaeaf0bb0d2868462128ce00e191bb9ced46db13a62b08d50d3';
 
 module.exports.convertTextFileToArray = (filePath) => {
     const fileBuffer = fs.readFileSync(filePath);
@@ -18,7 +18,7 @@ module.exports.convertTextFileTo2dArray = (filePath) => {
 module.exports.fetchInputForDay = async (year, day) => {
     const response = await fetch(`https://adventofcode.com/${year}/day/${day}/input`, {
         headers: { cookie: adventCookie },
-        method: 'GET'
+        method: 'GET',
     });
 
     const input = await response.text();
@@ -35,11 +35,11 @@ module.exports.submitAnswer = async (answer, year, day, level) => {
         headers: {
             accept: 'text/html',
             'content-type': 'application/x-www-form-urlencoded',
-            cookie: adventCookie
+            cookie: adventCookie,
         },
         body: `level=${level}&answer=${answer}`,
         method: 'POST',
-        mode: 'cors'
+        mode: 'cors',
     });
 
     const htmlResponse = await response.text();

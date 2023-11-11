@@ -24,7 +24,7 @@ const checkExamples = ({ solver, examples, answers }) => {
 
     return examples.every((example, index) => {
         const correctAnswer = answers[index];
-        const inputArray = example.split('\n');
+        const inputArray = _.trim(example).split('\n');
         console.log('example:', inputArray);
 
         const actualAnswer = solver({ inputArray });
@@ -32,9 +32,7 @@ const checkExamples = ({ solver, examples, answers }) => {
         if (actualAnswer === correctAnswer) {
             return true;
         } else {
-            console.log(
-                `Example answer: ${actualAnswer} does not equal correct answer: ${correctAnswer}`
-            );
+            console.log(`Example answer: ${actualAnswer} does not equal correct answer: ${correctAnswer}`);
             return false;
         }
     });
@@ -62,7 +60,7 @@ const main = async () => {
         part2Examples,
         part2ExampleAnswers,
         getSolutionForLevel1,
-        getSolutionForLevel2
+        getSolutionForLevel2,
     } = codeForDay;
 
     let answer;
@@ -70,7 +68,7 @@ const main = async () => {
         const doExamplesWork = checkExamples({
             solver: getSolutionForLevel1,
             examples: part1Examples,
-            answers: part1ExampleAnswers
+            answers: part1ExampleAnswers,
         });
 
         if (!doExamplesWork) {
@@ -82,7 +80,7 @@ const main = async () => {
         const doExamplesWork = checkExamples({
             solver: getSolutionForLevel2,
             examples: part2Examples,
-            answers: part2ExampleAnswers
+            answers: part2ExampleAnswers,
         });
 
         if (!doExamplesWork) {
