@@ -26,8 +26,64 @@ module.exports.fetchInputForDay = async (year, day) => {
     return input;
 };
 
+module.exports.writeWrongAnswers = (result, year, day) => {
+    const results = [result];
+
+    const inputPath = `./${year}/day${day}-wrong.json`;
+
+    if (fs.existsSync(inputPath)) {
+        const fileBuffer = fs.readFileSync(inputPath);
+
+        const existingResults = JSON.parse(fileBuffer.toString());
+
+        results.unshift(...existingResults);
+    }
+
+    fs.writeFileSync(inputPath, JSON.stringify(results, null, 4));
+    console.log(`***** Wrote wrong answers for Year: ${year} - Day ${day} *****`);
+};
+
+module.exports.willBeWrongAnswer = (answer, year, day, level) => {
+    const inputPath = `./${year}/day${day}-wrong.json`;
+
+    if (fs.existsSync(inputPath)) {
+        const fileBuffer = fs.readFileSync(inputPath);
+
+        const wrongAnswers = JSON.parse(fileBuffer.toString());
+
+        const { min, max, prevAnswers } = wrongAnswers.reduce(
+            (acc, wrongAnswer) => {
+                if (wrongAnswer.level === level) {
+                    if (wrongAnswer.answerStatus === 'TOO_LOW' && acc.min < wrongAnswer.answer) {
+                        acc.min = wrongAnswer.answer;
+                    } else if (wrongAnswer.answerStatus === 'TOO_HIGH' && acc.max > wrongAnswer.answer) {
+                        acc.max = wrongAnswer.answer;
+                    }
+                }
+
+                acc.prevAnswers.push(wrongAnswer.answer);
+
+                return acc;
+            },
+            { min: 0, max: Number.MAX_SAFE_INTEGER, prevAnswers: [] }
+        );
+
+        if (prevAnswers.includes(answer)) {
+            console.log(`********** Wrong Answer. already tried ${answer}`);
+        }
+
+        if (answer <= min || answer >= max) {
+            console.log(`********** Wrong Answer. should be between ${min} and ${max} ***********`);
+
+            return true;
+        }
+
+        return false;
+    }
+};
+
 module.exports.submitAnswer = async (answer, year, day, level) => {
-    console.log('**********Submitting Answer***********');
+    console.log('********** Submitting Answer ***********');
 
     const url = `https://adventofcode.com/${year}/day/${day}/answer`;
 
@@ -47,10 +103,28 @@ module.exports.submitAnswer = async (answer, year, day, level) => {
     if (htmlResponse.includes("That's not the right answer")) {
         console.log('********************Incorrect Answer**********************');
 
-        // TODO write wrong answer to file
+        let answerStatus = 'UNKNOWN';
+
+        if (htmlResponse.includes('your answer is too low')) {
+            answerStatus = 'TOO_LOW';
+        } else if (htmlResponse.includes('your answer is too high')) {
+            answerStatus = 'TOO_HIGH';
+        }
+
+        const result = {
+            answer,
+            level,
+            answerStatus,
+            htmlResponse,
+        };
+
+        console.log('answerStatus', answerStatus);
+
+        this.writeWrongAnswers(result, year, day);
     } else if (htmlResponse.includes("That's the right answer")) {
         console.log('********************Right Answer**********************');
     } else {
         console.log('********************Some Unknown Response**********************');
+        console.log('htmlResponse', htmlResponse);
     }
 };

@@ -24,10 +24,12 @@ const checkExamples = ({ solver, examples, answers }) => {
 
     return examples.every((example, index) => {
         const correctAnswer = answers[index];
-        const inputArray = _.trim(example).split('\n');
+        const inputArray = example.split('\n');
+        const input2dArray = example.split('\n').map((line) => line.split(''));
         console.log('example:', inputArray);
+        console.log('example:', input2dArray);
 
-        const actualAnswer = solver({ inputArray });
+        const actualAnswer = solver({ inputArray, input2dArray });
 
         if (actualAnswer === correctAnswer) {
             return true;
@@ -51,6 +53,7 @@ const main = async () => {
 
     const inputFilePath = `./${year}/day${day}.txt`;
     const inputArray = utils.convertTextFileToArray(inputFilePath);
+    const input2dArray = utils.convertTextFileTo2dArray(inputFilePath);
 
     const codePath = `./${year}/day${day}.js`;
     const codeForDay = require(codePath);
@@ -75,7 +78,7 @@ const main = async () => {
             return;
         }
 
-        answer = getSolutionForLevel1({ inputArray });
+        answer = getSolutionForLevel1({ inputArray, input2dArray });
     } else {
         const doExamplesWork = checkExamples({
             solver: getSolutionForLevel2,
@@ -87,7 +90,7 @@ const main = async () => {
             return;
         }
 
-        answer = getSolutionForLevel2({ inputArray });
+        answer = getSolutionForLevel2({ inputArray, input2dArray });
     }
 
     if (['', undefined, null].includes(answer)) {
@@ -102,7 +105,9 @@ const main = async () => {
 
     const isDryRun = shouldSubmitAnswerString !== 'true';
 
-    if (!isDryRun) {
+    const willBeWrongAnswer = utils.willBeWrongAnswer(answer, year, day, level);
+
+    if (!willBeWrongAnswer && !isDryRun) {
         await utils.submitAnswer(answer, year, day, level);
     }
 };
