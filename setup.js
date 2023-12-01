@@ -19,6 +19,8 @@ const getInputForYear = async (year) => {
 
     if (currentYear > year) {
         dayOfMonth = 25;
+    } else if (dayOfMonth > 25) {
+        dayOfMonth = 1;
     }
 
     const yearFolder = `./${year}`;
@@ -48,23 +50,19 @@ const createCodeFileForDay = (codePath) => {
     const template = `const _ = require('lodash');
 
 module.exports.part1Examples = [
-\`
-----PASTE EXAMPLES HERE
-\`
+
 ];
 
 module.exports.part1ExampleAnswers = [
-'----PASTE EXAMPLE ANSWERS HERE'
+
 ];
 
 module.exports.part2Examples = [
-\`
-----PASTE EXAMPLES HERE
-\`
+
 ];
 
 module.exports.part2ExampleAnswers = [
-'----PASTE EXAMPLE ANSWERS HERE'
+
 ];
 
 module.exports.getSolutionForLevel1 = ({ inputArray }) => {

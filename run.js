@@ -27,7 +27,7 @@ const checkExamples = ({ solver, examples, answers }) => {
         const inputArray = example.split('\n');
         const input2dArray = example.split('\n').map((line) => line.split(''));
         console.log('example:', inputArray);
-        console.log('example:', input2dArray);
+        // console.log('example:', input2dArray);
 
         const actualAnswer = solver({ inputArray, input2dArray });
 
