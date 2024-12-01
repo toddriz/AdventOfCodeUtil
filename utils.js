@@ -1,12 +1,17 @@
+const _ = require('lodash')
 const fs = require('fs');
 
 const adventCookie =
-    'session=53616c7465645f5f37fa0f9ed803158615a850fd9dcd9c177d27c5afe4d25dbe9927253b5ecf1eaeaf0bb0d2868462128ce00e191bb9ced46db13a62b08d50d3';
+    'session=53616c7465645f5f3f6e620d227df33a4b735e2bccbb35fdc4784759fd9c66c1d3725e13dc8cfdec661cbc31267b2de8d3644f70c97c693028d807da5a0df66d';
 
 module.exports.convertTextFileToArray = (filePath) => {
     const fileBuffer = fs.readFileSync(filePath);
 
-    return fileBuffer.toString().split('\n').slice(0, -1);
+    const fileString = fileBuffer.toString()
+
+    const fileLines = fileString.split('\n');
+
+    return _.compact(fileLines)
 };
 
 module.exports.convertTextFileTo2dArray = (filePath) => {

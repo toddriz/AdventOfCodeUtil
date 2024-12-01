@@ -16,25 +16,22 @@ const args = process.argv.slice(2);
 
 const [year, day, level, shouldSubmitAnswerString] = args;
 
-const checkExamples = ({ solver, examples, answers }) => {
+const checkExamples = ({ solver, examples }) => {
     if (_.isEmpty(examples)) {
         console.log('No examples provided');
         return true;
     }
 
-    return examples.every((example, index) => {
-        const correctAnswer = answers[index];
-        const inputArray = example.split('\n');
-        const input2dArray = example.split('\n').map((line) => line.split(''));
-        console.log('example:', inputArray);
-        // console.log('example:', input2dArray);
+    return examples.every(({ input, answer }) => {
+        const inputArray = input.split('\n');
+        const input2dArray = input.split('\n').map((line) => line.split(''));
 
-        const actualAnswer = solver({ inputArray, input2dArray });
+        const computedAnswer = solver({ inputArray, input2dArray });
 
-        if (actualAnswer === correctAnswer) {
+        if (computedAnswer === answer) {
             return true;
         } else {
-            console.log(`Example answer: ${actualAnswer} does not equal correct answer: ${correctAnswer}`);
+            console.log(`Example answer: ${computedAnswer} does not equal correct answer: ${answer}`);
             return false;
         }
     });
@@ -52,26 +49,24 @@ const main = async () => {
     }
 
     const inputFilePath = `./${year}/day${day}.txt`;
+
     const inputArray = utils.convertTextFileToArray(inputFilePath);
     const input2dArray = utils.convertTextFileTo2dArray(inputFilePath);
 
     const codePath = `./${year}/day${day}.js`;
-    const codeForDay = require(codePath);
+
     const {
         part1Examples,
-        part1ExampleAnswers,
         part2Examples,
-        part2ExampleAnswers,
         getSolutionForLevel1,
-        getSolutionForLevel2,
-    } = codeForDay;
+        getSolutionForLevel2
+    } = require(codePath);
 
     let answer;
     if (level === '1') {
         const doExamplesWork = checkExamples({
             solver: getSolutionForLevel1,
             examples: part1Examples,
-            answers: part1ExampleAnswers,
         });
 
         if (!doExamplesWork) {
@@ -83,7 +78,6 @@ const main = async () => {
         const doExamplesWork = checkExamples({
             solver: getSolutionForLevel2,
             examples: part2Examples,
-            answers: part2ExampleAnswers,
         });
 
         if (!doExamplesWork) {
@@ -93,7 +87,7 @@ const main = async () => {
         answer = getSolutionForLevel2({ inputArray, input2dArray });
     }
 
-    if (['', undefined, null].includes(answer)) {
+    if (['', undefined, null, Number.NaN].includes(answer)) {
         return 'Answer is undefined';
     }
 

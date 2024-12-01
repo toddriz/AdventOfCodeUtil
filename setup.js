@@ -50,20 +50,13 @@ const createCodeFileForDay = (codePath) => {
     const template = `const _ = require('lodash');
 
 module.exports.part1Examples = [
-
+    {input: \`INSERT_EXAMPLE_HERE\`, answer: 'INSERT_ANSWER_HERE'}
 ];
 
-module.exports.part1ExampleAnswers = [
-
-];
 
 module.exports.part2Examples = [
-
 ];
 
-module.exports.part2ExampleAnswers = [
-
-];
 
 module.exports.getSolutionForLevel1 = ({ inputArray }) => {
     let answer;
